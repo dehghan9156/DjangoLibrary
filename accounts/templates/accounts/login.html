@@ -1,0 +1,15 @@
+{% extends 'base.html' %}
+{% block content %}
+    <div class="d-flex justify-content-center align-items-center" style="min-height: 80vh;">
+        <div class="card p-4 shadow-lg" style="width: 320px; border-radius: 15px;">
+            <h4 class="text-center mb-3">Login</h4>
+            <form method="post">
+                {% csrf_token %}
+                <div class="mb-2">
+                    {{ form.as_p }}
+                </div>
+                <button type="submit" class="btn btn-success w-100" style="margin-bottom: 5px;">Login</button>
+            </form>
+        </div>
+    </div>
+{% endblock %}

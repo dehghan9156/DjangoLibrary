@@ -24,3 +24,7 @@ class UserRegisterForm(forms.ModelForm):
                     "password and confirm_password does not match"
                 )
         return cleaned_data
+
+class LoginUserForm(forms.Form):
+    email = forms.EmailField(widget=forms.EmailInput(attrs={'class':'form-control'}))
+    password = forms.CharField(widget=forms.PasswordInput(attrs={'class':'form-control'}))

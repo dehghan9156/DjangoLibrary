@@ -18,9 +18,8 @@
                 {{ form.confirm_password }}
             </div>
             <button type="submit" class="btn btn-success w-100" style="margin-bottom: 5px;">Register</button>
-            <button type="submit" class="btn btn-success w-100">Login</button>
-
         </form>
+        <a class="btn btn-success w-100" href="{% url 'accounts:login-user' %}">Login</a>
     </div>
 </div>
 {% endblock %}
