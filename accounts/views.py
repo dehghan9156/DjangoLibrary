@@ -2,13 +2,13 @@ from django.shortcuts import render,redirect
 from django.shortcuts import get_object_or_404
 from django.contrib import messages
 
-from .forms import UserRegisterForm,LoginUserForm
+from .forms import UserRegisterForm,LoginUserForm,ProfileUserForm
 from django.views.generic.edit import CreateView
 from django.urls import reverse_lazy
 from django.views import View
 from django.contrib.auth import authenticate,login,logout
 from django.contrib.auth.mixins import LoginRequiredMixin
-
+from accounts.models import User,Profile
 
 class RegisterUserView(CreateView):
     template_name = 'accounts/register.html'
@@ -40,4 +40,20 @@ class LogoutUserView(LoginRequiredMixin,View):
         logout(request)
         messages.success(request,"User Logout Successfully.",'success')
         return redirect('accounts:login-user')
+
+class ProfileUserView(LoginRequiredMixin,View):
+    def get(self,request):
+        user = get_object_or_404(Profile,user=self.request.user)
+        form = ProfileUserForm(instance=user)
+        return render(request,'accounts/profile.html',{'form':form})
+
+    def post(self,request):
+        user = get_object_or_404(Profile,user=self.request.user)
+        form = ProfileUserForm(request.POST,request.FILES,instance=user)
+        if form.is_valid():
+            form.save()
+            messages.success(request,"Profile Edith Successfully.",'success')
+        else:
+            messages.error(request,"Information Not Valid.",'error')
+        return render(request,'accounts/profile.html',{'form':form})
 

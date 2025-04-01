@@ -1,5 +1,5 @@
 from django import forms
-from .models import User
+from .models import User,Profile
 
 class UserRegisterForm(forms.ModelForm):
     confirm_password = forms.CharField(widget=forms.PasswordInput(attrs={'class':'form-control'}))
@@ -28,3 +28,22 @@ class UserRegisterForm(forms.ModelForm):
 class LoginUserForm(forms.Form):
     email = forms.EmailField(widget=forms.EmailInput(attrs={'class':'form-control'}))
     password = forms.CharField(widget=forms.PasswordInput(attrs={'class':'form-control'}))
+
+class ProfileUserForm(forms.ModelForm):
+    class Meta:
+        model = Profile
+        fields = ["first_name","last_name","description","image"]
+        widgets = {
+            'first_name': forms.TextInput(attrs={
+                'class': 'form-control',
+            }),
+            'last_name': forms.TextInput(attrs={
+                'class': 'form-control',
+            }),
+            'description': forms.TextInput(attrs={
+                'class': 'form-control',
+            }),
+            'image': forms.ClearableFileInput(attrs={
+                'class': 'form-control',
+            }),
+        }
