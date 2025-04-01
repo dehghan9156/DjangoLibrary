@@ -7,7 +7,7 @@ from django.views.generic.edit import CreateView
 from django.urls import reverse_lazy
 from django.views import View
 from django.contrib.auth import authenticate,login,logout
-
+from django.contrib.auth.mixins import LoginRequiredMixin
 
 
 class RegisterUserView(CreateView):
@@ -35,5 +35,9 @@ class LoginUserView(View):
         else:
             messages.error(request,"Invalid form submission",'error')
 
-class LogoutUserView(View):
-    pass
+class LogoutUserView(LoginRequiredMixin,View):
+    def get(self,request):
+        logout(request)
+        messages.success(request,"User Logout Successfully.",'success')
+        return redirect('accounts:login-user')
+

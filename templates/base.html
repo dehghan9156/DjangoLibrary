@@ -50,10 +50,10 @@
                 <li class="nav-item"><a class="nav-link text-white" href="#">🏠Home</a></li>
                 <li class="nav-item"><a class="nav-link text-white" href="#">📖Books</a></li>
                 {% if request.user.is_authenticated %}
-                    <li class="nav-item"><a class="nav-link text-white" href="#">📖Logout</a></li>
+                    <li class="nav-item"><a class="nav-link text-white" href="{% url 'accounts:logout-user' %}">📖Logout</a></li>
                 {% else %}
-                    <li class="nav-item"><a class="nav-link text-white" href="{% url 'accounts:register-user' %}">🔑Login</a></li>
-                    <li class="nav-item"><a class="nav-link text-white" href="{% url 'accounts:login-user' %}">👤Register</a></li>
+                    <li class="nav-item"><a class="nav-link text-white" href="{% url 'accounts:login-user' %}">🔑Login</a></li>
+                    <li class="nav-item"><a class="nav-link text-white" href="{% url 'accounts:register-user' %}">👤Register</a></li>
                 {% endif %}
             </ul>
         </div>
