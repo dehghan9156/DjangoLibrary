@@ -29,12 +29,12 @@ class LoginUserView(View):
             if user is not None:
                 login(request,user)
                 messages.success(request,"User Login Successfully.",'success')
-                return redirect('accounts:login-user')
+                return redirect('accounts:profile-user')
             else:
                 messages.error(request,"User Does Not Exist.",'error')
         else:
             messages.error(request,"Invalid form submission",'error')
-
+        return render(request, "accounts/login.html", {'form': form})  # بازگشت به فرم لاگین
 class LogoutUserView(LoginRequiredMixin,View):
     def get(self,request):
         logout(request)
@@ -43,17 +43,19 @@ class LogoutUserView(LoginRequiredMixin,View):
 
 class ProfileUserView(LoginRequiredMixin,View):
     def get(self,request):
-        user = get_object_or_404(Profile,user=self.request.user)
-        form = ProfileUserForm(instance=user)
-        return render(request,'accounts/profile.html',{'form':form})
+        user = get_object_or_404(User,pk=self.request.user.pk)
+        profile = Profile.objects.get(user=user)
+        form = ProfileUserForm(instance=profile)
+        return render(request,'accounts/profile.html',{'form':form,'profile':profile})
 
     def post(self,request):
-        user = get_object_or_404(Profile,user=self.request.user)
-        form = ProfileUserForm(request.POST,request.FILES,instance=user)
+        user = get_object_or_404(User,pk=self.request.user.pk)
+        profile = Profile.objects.get(user=user)
+        form = ProfileUserForm(request.POST,request.FILES,instance=profile)
         if form.is_valid():
             form.save()
             messages.success(request,"Profile Edith Successfully.",'success')
         else:
             messages.error(request,"Information Not Valid.",'error')
-        return render(request,'accounts/profile.html',{'form':form})
+        return render(request,'accounts/profile.html',{'form':form,'profile':profile})
 

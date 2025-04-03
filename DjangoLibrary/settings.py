@@ -130,8 +130,8 @@ AUTH_USER_MODEL = "accounts.User"
 STATIC_URL = "/static/"
 STATIC_ROOT = BASE_DIR / "static"
 
-MEDIA_URL = "/media/"
-MEDIA_ROOT = BASE_DIR / "media"
+MEDIA_URL = "/profile/"
+MEDIA_ROOT = BASE_DIR / "profile"
 
 STATICFILES_DIRS = [
     BASE_DIR / "assets",
