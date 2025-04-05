@@ -35,7 +35,7 @@ schema_view = get_schema_view(
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('accounts/', include("accounts.urls", namespace="accounts")),
-    # path('library/',include("library.urls",namespace="library")),
+    path('library/',include("library.urls",namespace="library")),
 
     # url for swagger document
     path('swagger.json', schema_view.without_ui(cache_timeout=0), name='schema-json'),
