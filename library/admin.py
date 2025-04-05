@@ -1,3 +1,17 @@
 from django.contrib import admin
+from .models import Amanat,Book,Category
+from django.contrib.admin import ModelAdmin
 
-# Register your models here.
+
+class CustomAmanat(ModelAdmin):
+    search_fields = ("pk","profile","book","status")
+
+class CustomBook(ModelAdmin):
+    search_fields = ("pk","category","name")
+
+class CustomCategory(ModelAdmin):
+    search_fields = ("pk","name")
+
+admin.site.register(Amanat,CustomAmanat)
+admin.site.register(Book,CustomBook)
+admin.site.register(Category,CustomCategory)
