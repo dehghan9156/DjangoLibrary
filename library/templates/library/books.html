@@ -1,0 +1,20 @@
+{% extends 'base.html' %}
+{% block content %}
+<div style="max-width: 1200px; margin: 0 auto; padding: 40px 20px; box-sizing: border-box;">
+    <h1 style="text-align: center; margin-bottom: 40px; font-size: 2rem;">📚Book List</h1>
+
+    <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 30px;">
+        {% for book in books %}
+            <div style="border-radius: 12px; overflow: hidden; background: #fff; box-shadow: 0 6px 18px rgba(0,0,0,0.1); transition: transform 0.3s ease;">
+                <div style="width: 100%; aspect-ratio: 2/3; overflow: hidden;">
+                <a href="{% url 'library:detail-books' book.pk %}"><img src="{{ book.image }}" alt="{{ book.name }}" style="width: 100%; height: 100%; object-fit: cover; display: block;"></a>
+                </div>
+                <div style="padding: 16px;">
+                    <h2 style="font-size: 1.1rem; margin-bottom: 8px; color: #333;">{{ book.name }}</h2>
+                    <p style="color: #777; font-size: 0.9rem;">category : <strong>{{ book.category.name }}</strong></p>
+                </div>
+            </div>
+        {% endfor %}
+    </div>
+</div>
+{% endblock %}

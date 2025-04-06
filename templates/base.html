@@ -33,7 +33,7 @@
             background-color: #2e7d32;
             color: white;
             width: 100%;
-            position: relative;
+            margin-top: auto; /* این خط باعث میشه فوتر همیشه بره پایین */
         }
     </style>
 </head>
@@ -50,12 +50,16 @@
                 <li class="nav-item"><a class="nav-link text-white" href="#">🏠Home</a></li>
                 <li class="nav-item"><a class="nav-link text-white" href="#">📖Books</a></li>
                 {% if request.user.is_authenticated %}
-                    <li class="nav-item"><a class="nav-link text-white" href="{% url 'accounts:profile-user' %}">👤Profile</a></li>
-                    <li class="nav-item"><a class="nav-link text-white" href="{% url 'accounts:logout-user' %}">📖Logout</a></li>
+                    <li class="nav-item"><a class="nav-link text-white" href="{% url 'accounts:profile-user' %}">👤Profile</a>
+                    </li>
+                    <li class="nav-item"><a class="nav-link text-white"
+                                            href="{% url 'accounts:logout-user' %}">📖Logout</a></li>
 
                 {% else %}
-                    <li class="nav-item"><a class="nav-link text-white" href="{% url 'accounts:login-user' %}">🔑Login</a></li>
-                    <li class="nav-item"><a class="nav-link text-white" href="{% url 'accounts:register-user' %}">✍️Register</a></li>
+                    <li class="nav-item"><a class="nav-link text-white"
+                                            href="{% url 'accounts:login-user' %}">🔑Login</a></li>
+                    <li class="nav-item"><a class="nav-link text-white" href="{% url 'accounts:register-user' %}">✍️Register</a>
+                    </li>
                 {% endif %}
             </ul>
         </div>
@@ -65,13 +69,12 @@
 
 <!-- 🔹 محتوای صفحه -->
 {% include 'messages.html' %}
-<div class="container">
+<div>
     {% block content %}{% endblock %}
 </div>
 
 <!-- 🔹 فوتر -->
 <footer class="footer">
-    <p>تمام حقوق محفوظ است &copy; 2025</p>
-</footer>
+    <p>All rights reserved copy; 2025</p></footer>
 </body>
 </html>
