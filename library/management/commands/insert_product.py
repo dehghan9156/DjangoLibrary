@@ -34,6 +34,9 @@ class Command(BaseCommand):
                 category = category_obj,
                 name = self.fake.sentence(nb_words=3),
                 image = image,
+                description = self.fake.paragraph(nb_sentences=3),
+                year = self.fake.date_time(),
+                pages = self.fake.random_int(100,900),
                 created_date = datetime.now,
                 )
 

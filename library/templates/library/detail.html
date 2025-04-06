@@ -1,24 +1,45 @@
 {% extends 'base.html' %}
 {% block content %}
-<div style="max-width: 900px; margin: 40px auto; background: white; padding: 30px; border-radius: 12px; box-shadow: 0 6px 18px rgba(0,0,0,0.1); display: flex; flex-wrap: wrap; gap: 30px; align-items: flex-start;">
+    <div style="max-width: 900px; margin: 40px auto; background: white; padding: 30px; border-radius: 12px; box-shadow: 0 6px 18px rgba(0,0,0,0.1); display: flex; flex-wrap: wrap; gap: 30px; align-items: flex-start;">
 
-    <!-- تصویر کتاب -->
-    <div style="flex: 1 1 300px; max-width: 300px;">
-        <img src="{{ book.image }}" alt="{{ book.name }}" style="width: 100%; border-radius: 10px; object-fit: cover; aspect-ratio: 2 / 3; box-shadow: 0 4px 12px rgba(0,0,0,0.15);">
+        <!-- تصویر کتاب -->
+        <div style="flex: 1 1 300px; max-width: 300px;">
+            <img src="{{ book.image }}" alt="{{ book.name }}"
+                 style="width: 100%; border-radius: 10px; object-fit: cover; aspect-ratio: 2 / 3; box-shadow: 0 4px 12px rgba(0,0,0,0.15);">
+        </div>
+
+        <!-- اطلاعات کتاب -->
+        <div style="flex: 2 1 400px;">
+            <h1 style="font-size: 2rem; color: #2e7d32; margin-bottom: 20px;">{{ book.name }}</h1>
+
+            {% if book.author %}
+                <p style="font-size: 1rem; margin-bottom: 10px;"><strong>نویسنده:</strong> {{ book.author }}</p>
+            {% endif %}
+
+            {% if book.category %}
+                <p style="font-size: 1rem; margin-bottom: 10px;"><strong>caetgory:</strong> {{ book.category.name }}</p>
+            {% endif %}
+
+            {% if book.year %}
+                <p style="font-size: 1rem; margin-bottom: 10px;"><strong>Year of publication:</strong> {{ book.year }}
+                </p>
+            {% endif %}
+
+            {% if book.pages %}
+                <p style="font-size: 1rem; margin-bottom: 10px;"><strong>Number of pages:</strong> {{ book.pages }}</p>
+            {% endif %}
+
+            {% if book.description %}
+                <div style="margin-top: 20px; color: #444; line-height: 1.8;">
+                    {{ book.description }}
+                </div>
+            {% endif %}
+
+
+            <a href="{% url 'library:amanat-books' book.pk %}"
+               style="display: inline-block; margin-top: 30px; background: #2e7d32; color: white; padding: 12px 24px; border-radius: 6px; text-decoration: none;">
+                📥 Borrowing Book
+            </a>
+        </div>
     </div>
-
-    <!-- اطلاعات کتاب -->
-    <div style="flex: 2 1 400px;">
-        <h1 style="font-size: 2rem; color: #2e7d32; margin-bottom: 20px;">{{ book.name }}</h1>
-        {% if book.category %}
-            <p style="font-size: 1rem; margin-bottom: 10px;"><strong>category :</strong> {{ book.category.name }}</p>
-        {% endif %}
-
-        {% if book.description %}
-            <div style="margin-top: 20px; color: #444; line-height: 1.8;">
-                {{ book.description }}
-            </div>
-        {% endif %}
-    </div>
-</div>
 {% endblock %}

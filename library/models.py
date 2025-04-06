@@ -8,7 +8,7 @@ test_choice = (
 class Amanat(models.Model):
     profile = models.ForeignKey(Profile,on_delete=models.CASCADE)
     book = models.ForeignKey('Book',on_delete=models.CASCADE)
-    startdate = models.DateTimeField(auto_now_add=True)
+    startdate = models.DateTimeField()
     returndate = models.DateTimeField()
     status = models.CharField(choices=test_choice,max_length=250)
 
@@ -19,6 +19,9 @@ class Book(models.Model):
     category = models.ForeignKey('Category',on_delete=models.CASCADE)
     name = models.CharField(max_length=250)
     image = models.ImageField(upload_to="book/",blank=True,null=True)
+    description = models.TextField(blank=True,null=True)
+    year = models.DateTimeField(blank=True,null=True)
+    pages = models.IntegerField(blank=True,null=True)
     created_date = models.DateTimeField(auto_now_add=True)
     updated_date = models.DateTimeField(auto_now=True)
 
