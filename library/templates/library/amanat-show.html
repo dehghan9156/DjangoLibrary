@@ -1,0 +1,33 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="container mt-4">
+    <h2 class="mb-4" style="text-align: center;">Borroewd Book List</h2>
+    <h6 class="card-subtitle mb-2 text-muted">Username : {{request.user.email}}</h6>
+    <div class="row">
+        {% for ant in amanat %}
+            <div class="col-md-6 mb-4">
+                <div class="card shadow-sm border-primary">
+                    <div class="card-body">
+                        <h5 class="card-title text-primary">{{ ant.book.name }}</h5>
+                        <p class="card-text"><strong>startdate : </strong> {{ ant.startdate }}</p>
+                        <p class="card-text"><strong>returndate : </strong> {{ ant.returndate }}</p>
+                        <p class="card-text">
+                            <strong>status : </strong>
+                            <span class="badge
+                                {% if ant.status == 'returned' %}
+                                    bg-success
+                                {% else %}
+                                    bg-warning text-dark
+                                {% endif %}
+                            ">
+                                {{ ant.status }}
+                            </span>
+                        </p>
+                    </div>
+                </div>
+            </div>
+        {% endfor %}
+    </div>
+</div>
+{% endblock %}

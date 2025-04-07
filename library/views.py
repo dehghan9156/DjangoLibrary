@@ -22,19 +22,27 @@ class DetailBooksView(View):
         return render(request, "library/detail.html", {'book': book})
 
 class AmanatBooksView(View,LoginRequiredMixin):
-    def post(self,reuqest,pk):
-        book = get_object_or_404(Book,pk=pk)
-        if request.method=='POST':
-            form = AmanatForm(request.POST)
-            profile = get_object_or_404(Profile,user=self.request.user)
-            if form.is_valid():
-                amanat = form.save(commit=False)
-                amanat.profile = profile
-                amanat.book = book
-                amanat.save()
-                messages.success(request,"You borrowed this book.Thank you")
-                return redirect("library:detail-books",book.pk)
-        else:
-            form = AmanatForm()
-        return render(request,"library/amanat.html",{'form':form})
+    def get(self,request,pk):
+        form = AmanatForm()
+        return render(request, "library/amanat-form.html", {'form':form})
 
+    def post(self,request,pk):
+        book = get_object_or_404(Book,pk=pk)
+        form = AmanatForm(request.POST)
+        profile = get_object_or_404(Profile,user=self.request.user)
+        if form.is_valid():
+            amanat = form.save(commit=False)
+            amanat.profile = profile
+            amanat.book = book
+            amanat.status = 1
+            amanat.save()
+            # print("وضعیت امانت:", amanat.status)
+            messages.success(request,"You borrowed this book.Thank you")
+            return redirect("library:detail-books",book.pk)
+        return render(request, "library/amanat-form.html", {'form':form})
+
+class ShowAmanatView(View,LoginRequiredMixin):
+    def get(self,request):
+        profile = get_object_or_404(Profile,user=self.request.user)
+        amanat = Amanat.objects.filter(profile=profile)
+        return render(request,"library/amanat-show.html",{'amanat':amanat})
