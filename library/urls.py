@@ -10,4 +10,5 @@ urlpatterns = [
     path("show/amanat/",views.ShowAmanatView.as_view(),name="show-amanat"),
     path("return/book/<int:pk_amanat>/",views.ReturnBookView.as_view(),name="return-book"),
     path("extend/book/<int:pk>/",views.ExtendBookView.as_view(),name="extend-book"),
+    path("api/v1/",include("library.api.v1.urls",namespace="api-v1")),
 ]
