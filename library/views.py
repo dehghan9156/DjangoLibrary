@@ -10,6 +10,9 @@ from django.contrib.auth.mixins import LoginRequiredMixin
 from library.models import Amanat, Book, Category
 from .forms import AmanatForm
 from accounts.models import Profile,User
+from datetime import timedelta
+
+
 class ListBooksView(View):
     def get(self, request):
         books = Book.objects.all()
@@ -34,7 +37,7 @@ class AmanatBooksView(View,LoginRequiredMixin):
             amanat = form.save(commit=False)
             amanat.profile = profile
             amanat.book = book
-            amanat.status = 1
+            amanat.status = "borrowed"
             amanat.save()
             # print("وضعیت امانت:", amanat.status)
             messages.success(request,"You borrowed this book.Thank you")
@@ -46,3 +49,22 @@ class ShowAmanatView(View,LoginRequiredMixin):
         profile = get_object_or_404(Profile,user=self.request.user)
         amanat = Amanat.objects.filter(profile=profile)
         return render(request,"library/amanat-show.html",{'amanat':amanat})
+
+class ReturnBookView(View):
+    def post(self,request,pk_amanat):
+        profile = get_object_or_404(Profile,user=self.request.user)
+        amanat = get_object_or_404(Amanat,profile=profile,pk=pk_amanat)
+        if amanat.status=="borrowed":
+            amanat.status = "returned"
+        amanat.save()
+        messages.success(request,"successfully book returned.",'success')
+        return redirect("library:show-amanat")
+
+class ExtendBookView(View):
+    def post(self,request,pk):
+        profile = get_object_or_404(Profile,user=self.request.user)
+        amanat = get_object_or_404(Amanat,profile=profile,status="borrowed")
+        amanat.returndate += timedelta(days=7)  # ۷ روز به تاریخ بازگشت اضافه می‌کنیم
+        amanat.save()
+        messages.success(request, "Your loan has been extended by 7 days.")
+        return redirect("library:show-amanat")
