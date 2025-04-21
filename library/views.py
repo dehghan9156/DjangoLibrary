@@ -14,8 +14,13 @@ from datetime import timedelta
 
 
 class ListBooksView(View):
-    def get(self, request):
+    def get(self,request):
         books = Book.objects.all()
+        if books:
+            print(books)
+        else:
+            print("no")
+        # print(books)
         return render(request, "library/books.html", {'books': books})
 
 
