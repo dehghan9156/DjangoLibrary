@@ -1,7 +1,19 @@
+# Python cache
 __pycache__/
 *.pyc
+
+# SQLite
 db.sqlite3
+
+# Virtual environment
 venv/
+
+# Media and uploads
 media/
 profile/
+
+# Logs
 *.log
+
+# IDE files
+.idea/
