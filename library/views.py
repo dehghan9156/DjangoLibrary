@@ -8,7 +8,7 @@ from django.views import View
 from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.mixins import LoginRequiredMixin
 from library.models import Amanat, Book, Category
-from .forms import AmanatForm
+from .forms import *
 from accounts.models import Profile,User
 from datetime import timedelta
 
@@ -22,6 +22,47 @@ class ListBooksView(View):
             print("no")
         # print(books)
         return render(request, "library/books.html", {'books': books})
+
+class BookAddView(View):
+    def get(self,request):
+        form = BookForm()
+        return render(request,"library/book-add.html",{"form":form})
+
+    def post(self,request):
+        form = BookForm(request.POST)
+        if form.is_valid():
+            form.save()
+            messages.success(request,"Book Add Successfully.",'success')
+            return redirect("library:list-books")
+        messages.error(request,"Form is not valid.",'error')
+        return render(request,"library/book-add.html",{"form":form})
+
+class BookDeleteView(View):
+    def get(self,request,pk):
+        try:
+            book = Book.objects.get(pk=pk)
+            book.delete()
+            messages.success(request,"Book Deleted Successfully.",'success')
+        except Book.DoesNotExist:
+            messages.error(request,"Book does not exit.",'error')
+        return redirect("library:list-books")
+
+class BookEditView(View):
+    def get(self,request,pk):
+        book = Book.objects.get(pk=pk)
+        form = BookForm(instance=book)
+        return render(request,"library/book-edit.html",{"form":form})
+
+    def post(self,request,pk):
+        book = Book.objects.get(pk=pk)
+        form = BookForm(request.POST,request.FILES,instance=book)
+        if form.is_valid():
+            form.save()
+            messages.success(request,"Information Book Edited.",'success')
+            return redirect("library:list-books")
+        messages.error(request,"Form is not Valid.",'error')
+        return render(request,"library/book-edit.html",{"form":form})
+
 
 
 class DetailBooksView(View):

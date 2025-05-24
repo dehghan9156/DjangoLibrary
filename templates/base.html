@@ -49,19 +49,27 @@
             <ul class="navbar-nav me-auto"> <!-- تغییر ms-auto به me-auto -->
                 <li class="nav-item"><a class="nav-link text-white" href="{% url 'library:list-books' %}">🏠Home</a></li>
                 {% if amanat.exists %}
-                    <li class="nav-item"><a class="nav-link text-white" href="{% url 'library:show-amanat' %}">📖Your Borrowed</a></li>
+                <li class="nav-item"><a class="nav-link text-white" href="{% url 'library:show-amanat' %}">📖Your
+                    Borrowed</a></li>
                 {% endif %}
                 {% if request.user.is_authenticated %}
-                    <li class="nav-item"><a class="nav-link text-white" href="{% url 'accounts:profile-user' %}">👤Profile</a>
-                    </li>
+                <li class="nav-item"><a class="nav-link text-white"
+                                        href="{% url 'accounts:profile-user' %}">👤Profile</a>
+                </li>
+                     {%if request.user.is_staff%}
                     <li class="nav-item"><a class="nav-link text-white"
-                                            href="{% url 'accounts:logout-user' %}">📖Logout</a></li>
+                                            href="{% url 'library:book-add' %}">➕AddBook</a>
+                    </li>
+                    {%endif%}
+                <li class="nav-item"><a class="nav-link text-white"
+                                        href="{% url 'accounts:logout-user' %}">📖Logout</a></li>
 
                 {% else %}
-                    <li class="nav-item"><a class="nav-link text-white"
-                                            href="{% url 'accounts:login-user' %}">🔑Login</a></li>
-                    <li class="nav-item"><a class="nav-link text-white" href="{% url 'accounts:register-user' %}">✍️Register</a>
-                    </li>
+                <li class="nav-item"><a class="nav-link text-white"
+                                        href="{% url 'accounts:login-user' %}">🔑Login</a></li>
+                <li class="nav-item"><a class="nav-link text-white"
+                                        href="{% url 'accounts:register-user' %}">✍️Register</a>
+                </li>
                 {% endif %}
             </ul>
         </div>

@@ -40,6 +40,16 @@
                style="display: inline-block; margin-top: 30px; background: #2e7d32; color: white; padding: 12px 24px; border-radius: 6px; text-decoration: none;">
                 📥 Borrowing Book
             </a>
+            {% if request.user.is_staff %}
+                <a href="{% url 'library:book-delete' book.pk %}"
+                   style="display: inline-block; margin-top: 30px; background:#ba2121; color: white; padding: 12px 24px; border-radius: 6px; text-decoration: none;">
+                    ✖ DeleteBook
+                </a>
+                <a href="{% url 'library:book-edit' book.pk %}"
+                   style="display: inline-block; margin-top: 30px; background:#1f69c0; color: white; padding: 12px 24px; border-radius: 6px; text-decoration: none;">
+                    🖋️ EditBook
+                </a>
+            {% endif %}
         </div>
     </div>
 {% endblock %}

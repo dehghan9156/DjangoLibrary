@@ -18,7 +18,7 @@ class Amanat(models.Model):
 class Book(models.Model):
     category = models.ForeignKey('Category',on_delete=models.CASCADE)
     name = models.CharField(max_length=250)
-    image = models.ImageField(upload_to="book/",blank=True,null=True)
+    image = models.URLField(blank=True,null=True)
     description = models.TextField(blank=True,null=True)
     year = models.DateTimeField(blank=True,null=True)
     pages = models.IntegerField(blank=True,null=True)
@@ -33,6 +33,6 @@ class Category(models.Model):
     description = models.TextField(blank=True,null=True)
 
     def __str__(self):
-        return f"{self.pk}-{self.name}"
+        return f"{self.name}"
 
 
