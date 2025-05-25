@@ -60,16 +60,16 @@ class User(AbstractBaseUser, PermissionsMixin):
     objects = UserManager()
 
 class Profile(models.Model):
-    user = models.OneToOneField(User,on_delete=models.CASCADE)
+    user = models.ForeignKey(User,on_delete=models.CASCADE)
     first_name = models.CharField(max_length=250)
     last_name = models.CharField(max_length=250)
     description = models.TextField()
-    image = models.ImageField(upload_to="profile/",blank=True,null=True)
+    image = models.URLField(blank=True,null=True)
     created_date = models.DateTimeField(auto_now_add=True)
     updated_date = models.DateTimeField(auto_now=True)
 
     def __str__(self):
-        return f"{self.user.email}"
+        return f"{self.first_name}--{self.last_name}"
 
 @receiver(post_save, sender=User)
 def create_profile(sender, instance, created, **kwargs):

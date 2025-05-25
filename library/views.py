@@ -59,7 +59,7 @@ class BookEditView(View):
         if form.is_valid():
             form.save()
             messages.success(request,"Information Book Edited.",'success')
-            return redirect("library:list-books")
+            return redirect("library:detail-books",pk)
         messages.error(request,"Form is not Valid.",'error')
         return render(request,"library/book-edit.html",{"form":form})
 
@@ -83,14 +83,14 @@ class AmanatBooksView(View,LoginRequiredMixin):
             amanat = form.save(commit=False)
             amanat.profile = profile
             amanat.book = book
-            amanat.status = "borrowed"
+            amanat.status = 1
             amanat.save()
             # print("وضعیت امانت:", amanat.status)
             messages.success(request,"You borrowed this book.Thank you")
             return redirect("library:detail-books",book.pk)
         return render(request, "library/amanat-form.html", {'form':form})
 
-class ShowAmanatView(View,LoginRequiredMixin):
+class ShowAmanatView(LoginRequiredMixin,View):
     def get(self,request):
         profile = get_object_or_404(Profile,user=self.request.user)
         amanat = Amanat.objects.filter(profile=profile)
@@ -100,8 +100,8 @@ class ReturnBookView(View):
     def post(self,request,pk_amanat):
         profile = get_object_or_404(Profile,user=self.request.user)
         amanat = get_object_or_404(Amanat,profile=profile,pk=pk_amanat)
-        if amanat.status=="borrowed":
-            amanat.status = "returned"
+        if amanat.status==1:
+            amanat.status = 2
         amanat.save()
         messages.success(request,"successfully book returned.",'success')
         return redirect("library:show-amanat")
@@ -109,7 +109,7 @@ class ReturnBookView(View):
 class ExtendBookView(View):
     def post(self,request,pk):
         profile = get_object_or_404(Profile,user=self.request.user)
-        amanat = get_object_or_404(Amanat,profile=profile,status="borrowed")
+        amanat = get_object_or_404(Amanat,profile=profile,status=1)
         amanat.returndate += timedelta(days=7)  # ۷ روز به تاریخ بازگشت اضافه می‌کنیم
         amanat.save()
         messages.success(request, "Your loan has been extended by 7 days.")

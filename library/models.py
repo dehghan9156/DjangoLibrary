@@ -10,7 +10,7 @@ class Amanat(models.Model):
     book = models.ForeignKey('Book',on_delete=models.CASCADE)
     startdate = models.DateTimeField()
     returndate = models.DateTimeField()
-    status = models.CharField(choices=test_choice,max_length=250)
+    status = models.IntegerField(choices=test_choice)
 
     def __str__(self):
         return f"{self.book}-{self.status}"

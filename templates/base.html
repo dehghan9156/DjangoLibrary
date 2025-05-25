@@ -40,39 +40,72 @@
 <body>
 <!-- 🔹    ناوبار اصلاح‌شده -->
 <nav class="navbar navbar-expand-lg navbar-dark" style="background-color: #2e7d32;">
-    <div class="container-fluid">
-        <a class="navbar-brand text-white" href="#">📚 LIBRARY</a>
-        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
-            <span class="navbar-toggler-icon"></span>
-        </button>
-        <div class="collapse navbar-collapse" id="navbarNav">
-            <ul class="navbar-nav me-auto"> <!-- تغییر ms-auto به me-auto -->
-                <li class="nav-item"><a class="nav-link text-white" href="{% url 'library:list-books' %}">🏠Home</a></li>
-                {% if amanat.exists %}
-                <li class="nav-item"><a class="nav-link text-white" href="{% url 'library:show-amanat' %}">📖Your
-                    Borrowed</a></li>
-                {% endif %}
-                {% if request.user.is_authenticated %}
-                <li class="nav-item"><a class="nav-link text-white"
-                                        href="{% url 'accounts:profile-user' %}">👤Profile</a>
-                </li>
-                     {%if request.user.is_staff%}
-                    <li class="nav-item"><a class="nav-link text-white"
-                                            href="{% url 'library:book-add' %}">➕AddBook</a>
-                    </li>
-                    {%endif%}
-                <li class="nav-item"><a class="nav-link text-white"
-                                        href="{% url 'accounts:logout-user' %}">📖Logout</a></li>
+    <div class="container-fluid d-flex justify-content-between align-items-center">
 
-                {% else %}
-                <li class="nav-item"><a class="nav-link text-white"
-                                        href="{% url 'accounts:login-user' %}">🔑Login</a></li>
-                <li class="nav-item"><a class="nav-link text-white"
-                                        href="{% url 'accounts:register-user' %}">✍️Register</a>
+        <!-- RIGHT: Logo -->
+        <div class="d-flex align-items-center">
+            <a class="navbar-brand text-white fw-bold me-3" href="#">
+                📚 <span class="ms-2">LIBRARY</span>
+            </a>
+        </div>
+
+        <!-- CENTER: Navbar items -->
+        <div class="collapse navbar-collapse justify-content-center" id="navbarNav">
+            <ul class="navbar-nav align-items-center">
+
+                <li class="nav-item">
+                    <a class="nav-link text-white d-flex align-items-center gap-2" href="{% url 'library:list-books' %}">
+                        🏠 <span>Home</span>
+                    </a>
                 </li>
+
+                {% if amanat.exists %}
+                <li class="nav-item">
+                    <a class="nav-link text-white d-flex align-items-center gap-2" href="{% url 'library:show-amanat' %}">
+                        📖 <span>Your Borrowed</span>
+                    </a>
+                </li>
+                {% endif %}
+
+                {% if request.user.is_authenticated %}
+                    {% if request.user.is_staff %}
+                    <li class="nav-item">
+                        <a class="nav-link text-white d-flex align-items-center gap-2" href="{% url 'library:book-add' %}">
+                            ➕ <span>Add Book</span>
+                        </a>
+                    </li>
+                    {% endif %}
+                    <li class="nav-item">
+                        <a class="nav-link text-white d-flex align-items-center gap-2" href="{% url 'accounts:profile-user' %}">
+                            👤 <span>Profile</span>
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link text-white d-flex align-items-center gap-2" href="{% url 'accounts:logout-user' %}">
+                            🚪 <span>Logout</span>
+                        </a>
+                    </li>
+                {% else %}
+                    <li class="nav-item">
+                        <a class="nav-link text-white d-flex align-items-center gap-2" href="{% url 'accounts:login-user' %}">
+                            🔑 <span>Login</span>
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link text-white d-flex align-items-center gap-2" href="{% url 'accounts:register-user' %}">
+                            ✍️ <span>Register</span>
+                        </a>
+                    </li>
                 {% endif %}
             </ul>
         </div>
+
+        <!-- LEFT: User email -->
+        {% if request.user.is_authenticated %}
+        <div class="text-white fw-semibold small text-end">
+            {{ request.user.email }}
+        </div>
+        {% endif %}
     </div>
 </nav>
 

@@ -137,6 +137,8 @@ MEDIA_URL = "/media/"
 MEDIA_ROOT = BASE_DIR / "media"
 
 
-STATICFILES_DIRS = [
-    BASE_DIR / "assets",
-]
+# STATICFILES_DIRS = [
+#     BASE_DIR / "assets",
+# ]
+
+

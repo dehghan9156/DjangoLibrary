@@ -1,75 +1,78 @@
 {% extends 'base.html' %}
 
 {% block content %}
-    <div class="container mt-4">
-        <h2 class="mb-4" style="text-align: center;">Borrowed Book List</h2>
-        <h6 class="card-subtitle mb-2 text-muted">Username : {{ request.user.email }}</h6>
+<div class="container mt-4">
+    <h2 class="mb-4 text-center">Borrowed Book List</h2>
+    <h6 class="card-subtitle mb-4 text-muted text-center">
+        Username: <strong>{{ request.user.email }}</strong>
+    </h6>
 
-        <!-- Books that are borrowed -->
-        <h4 class="mt-4">Books Currently Borrowed:</h4>
-        <div class="row">
-            {% for ant in amanat %}
-                {% if ant.status == "borrowed" %}
-                    <div class="col-md-6 mb-4">
-                        <div class="card shadow-sm border-primary">
-                            <div class="card-body">
-                                <h5 class="card-title text-primary">{{ ant.book.name }}</h5>
-                                <p class="card-text"><strong>Start Date: </strong>{{ ant.startdate }}</p>
-                                <p class="card-text"><strong>Return Date: </strong>{{ ant.returndate }}</p>
-                                <p class="card-text">
-                                    <strong>Status: </strong>
-                                    <span class="badge bg-warning text-dark">
-                                        {{ ant.status }}
-                                    </span>
-                                </p>
-                                <form method="post" action="{% url 'library:return-book' ant.pk %}">
+    <!-- Books that are borrowed -->
+    <h4 class="mb-3 text-primary">📚 Books Currently Borrowed:</h4>
+    <div class="row">
+        {% for ant in amanat %}
+            {% if ant.status == 1 %}
+                <div class="col-md-6 mb-4">
+                    <div class="card shadow-sm border-primary h-100 d-flex flex-column">
+                        <div class="card-body d-flex flex-column">
+                            <h5 class="card-title text-primary fw-bold text-truncate"
+                                style="max-height: 3rem; overflow: hidden; white-space: nowrap;">
+                                {{ ant.book.name }}
+                            </h5>
+                            <p class="card-text"><strong>Start Date:</strong> {{ ant.startdate|date:"Y-m-d" }}</p>
+                            <p class="card-text"><strong>Return Date:</strong> {{ ant.returndate|date:"Y-m-d" }}</p>
+                            <p class="card-text">
+                                <strong>Status:</strong>
+                                <span class="badge bg-warning text-dark">{{ ant.get_status_display }}</span>
+                            </p>
+                            <div class="mt-auto">
+                                <form method="post" action="{% url 'library:return-book' ant.pk %}" class="d-grid gap-2 mb-2">
                                     {% csrf_token %}
-                                    <button type="submit" class="btn btn-sm btn-outline-success mt-2">
-                                        Mark as Returned
+                                    <button type="submit" class="btn btn-sm btn-outline-success w-100">
+                                        ✅ Mark as Returned
                                     </button>
                                 </form>
-                                <form method="post" action="{% url 'library:extend-book' ant.pk %}">
+                                <form method="post" action="{% url 'library:extend-book' ant.pk %}" class="d-grid gap-2">
                                     {% csrf_token %}
-                                    <button type="submit" class="btn btn-sm btn-outline-success mt-2">
-                                        7-day extension of return date
+                                    <button type="submit" class="btn btn-sm btn-outline-primary w-100">
+                                        ⏳ Extend by 7 Days
                                     </button>
                                 </form>
                             </div>
                         </div>
-
                     </div>
-                {% endif %}
-            {% empty %}
-                <p>No borrowed books.</p>
-            {% endfor %}
-        </div>
-
-        <!-- Books that have been returned -->
-        <h4 class="mt-4">Returned Books:</h4>
-        <div class="row">
-            {% for ant in amanat %}
-                {% if ant.status == "returned" %}
-                    <div class="col-md-6 mb-4">
-                        <div class="card shadow-sm border-success">
-                            <div class="card-body">
-                                <h5 class="card-title text-success">{{ ant.book.name }}</h5>
-                                <p class="card-text"><strong>Start Date: </strong>{{ ant.startdate }}</p>
-                                <p class="card-text"><strong>Return Date: </strong>{{ ant.returndate }}</p>
-                                <p class="card-text">
-                                    <strong>Status: </strong>
-                                    <span class="badge bg-success">
-                                        {{ ant.status }}
-                                    </span>
-                                </p>
-
-                            </div>
-                        </div>
-                    </div>
-                {% endif %}
-            {% empty %}
-                <p>No returned books.</p>
-            {% endfor %}
-
-        </div>
+                </div>
+            {% endif %}
+        {% empty %}
+            <p>No borrowed books.</p>
+        {% endfor %}
     </div>
+
+    <!-- Books that have been returned -->
+    <h4 class="mt-4 mb-3 text-success">✅ Returned Books:</h4>
+    <div class="row">
+        {% for ant in amanat %}
+            {% if ant.status == 2 %}
+                <div class="col-md-6 mb-4">
+                    <div class="card shadow-sm border-success h-100 d-flex flex-column">
+                        <div class="card-body d-flex flex-column">
+                            <h5 class="card-title text-success fw-bold text-truncate"
+                                style="max-height: 3rem; overflow: hidden; white-space: nowrap;">
+                                {{ ant.book.name }}
+                            </h5>
+                            <p class="card-text"><strong>Start Date:</strong> {{ ant.startdate|date:"Y-m-d" }}</p>
+                            <p class="card-text"><strong>Return Date:</strong> {{ ant.returndate|date:"Y-m-d" }}</p>
+                            <p class="card-text">
+                                <strong>Status:</strong>
+                                <span class="badge bg-success">{{ ant.get_status_display }}</span>
+                            </p>
+                        </div>
+                    </div>
+                </div>
+            {% endif %}
+        {% empty %}
+            <p>No returned books.</p>
+        {% endfor %}
+    </div>
+</div>
 {% endblock %}
