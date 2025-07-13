@@ -48,6 +48,16 @@
                 📚 <span class="ms-2">LIBRARY</span>
             </a>
         </div>
+        <form action="{% url 'library:search-result' %}" method="get" style="display: flex; align-items: center; gap: 8px;">
+            <input 
+                type="text" 
+                name="search" 
+                style="height: 35px; padding: 0 10px; border: 1px solid #ccc; border-radius: 4px;" 
+                placeholder="Search..."
+                required
+            >
+            <button type="submit" class="btn btn-light" style="height: 35px;">Search</button>
+        </form>
 
         <!-- CENTER: Navbar items -->
         <div class="collapse navbar-collapse justify-content-center" id="navbarNav">

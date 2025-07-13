@@ -114,3 +114,10 @@ class ExtendBookView(View):
         amanat.save()
         messages.success(request, "Your loan has been extended by 7 days.")
         return redirect("library:show-amanat")
+
+class SearchResultView(View):
+    def get(self,request):
+        query = request.GET.get("search")
+        if query:
+            result = Book.objects.filter(name__icontains=query)
+        return render(request,"library/search-book.html",{"books":result,"query":query})

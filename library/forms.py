@@ -42,10 +42,13 @@ class BookForm(forms.ModelForm):
             'description': forms.TextInput(attrs={
                 'class': 'form-control',
             }),
-            'year': forms.TextInput(attrs={
+            'year': forms.DateTimeInput(attrs={
+                'type':'date',
                 'class': 'form-control',
             }),
             'pages': forms.TextInput(attrs={
                 'class': 'form-control',
             }),
         }
+
+
