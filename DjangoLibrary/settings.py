@@ -131,14 +131,13 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 AUTH_USER_MODEL = "accounts.User"
 
 STATIC_URL = "/static/"
-STATIC_ROOT = BASE_DIR / "static"
+STATIC_ROOT = BASE_DIR / "staticfiles"
 
 MEDIA_URL = "/media/"
 MEDIA_ROOT = BASE_DIR / "media"
 
 
-# STATICFILES_DIRS = [
-#     BASE_DIR / "assets",
-# ]
-
+STATICFILES_DIRS = [
+    BASE_DIR / 'static',
+]
 
